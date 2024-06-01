@@ -1,0 +1,33 @@
+
+
+# systemctl aliases
+alias sc='sudo systemctl'
+alias sc-serv='systemctl list-units --type=service | grep --color -E "active running|$"'
+alias scs='systemctl status'
+alias sc-f='systemctl --failed'
+alias sc-r='systemctl|grep running'
+alias sc-e='systemctl list-unit-files --state=enabled'
+alias sc-d='systemctl list-unit-files --state=disabled'
+alias sc-m='systemctl list-unit-files --state=masked'
+
+alias sa='systemd-analyze'
+alias sab='systemd-analyze blame'
+alias sac='systemd-analyze critical-chain'
+
+alias _='sudo'
+
+alias l='ls -l'
+alias la='ls -a'
+alias lla='ls -la'
+alias lt='ls --tree'
+
+alias ls='exa'
+alias exa="exa --group-directories-first --color always --icons always" 
+
+alias df="df -Th --total"
+alias du="du -ach | sort -h"
+alias free="free -mt"
+alias ps="ps auxf"
+alias psg="ps aux | grep -v grep | grep -i -e VSZ -e"
+
+alias cat='bat'
