@@ -131,7 +131,7 @@ PKGS_YAY=(
 # List of services to enable if installed
 SERVICES=(
     sddm
-    NetworkManager
+    tlp
     ufw
 )
 
