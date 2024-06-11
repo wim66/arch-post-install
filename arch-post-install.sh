@@ -6,126 +6,135 @@ if [ "$(id -u)" -eq 0 ]; then
     exit 1
 fi
 
-   #--improve compression of AUR packages--#
+# --improve compression of AUR packages--#
 sudo sed -i 's/COMPRESSZST=(zstd -c -T0 --ultra -20 -)/# COMPRESSZST=(zstd -c -T0 --ultra -20 -)/g' /etc/makepkg.conf
 
 # Update the system and install required packages with sudo
 echo "Updating the system and installing required packages..."
 sudo pacman -Syu --noconfirm --needed base-devel git dialog
 
-# List of packages to install via pacman
-PKGS_PACMAN=(
-        linux-headers
-        alsa-utils
-        arandr
-        archlinux-contrib
-        ark
-        bleachbit
-        bluedevil
-        breeze-gtk
-        breeze-plymouth
-        chezmoi
-        chromium              
-        code
-        deluge-gtk
-        discover
-        dolphin
-        dolphin-plugins
-        drkonqi
-        expac
-        eza
-        fastfetch
-        firefox             
-        gimp
-        gnome-keyring                   
-        gparted
-        grub-customizer
-        gufw                  
-        gwenview
-        inkscape
-        intel-ucode
-        kate
-        kbackup
-        kcolorchooser
-        kde-gtk-config
-        kdeplasma-addons
-        keepassxc
-        kgamma
-        kinfocenter
-        kio-admin
-        kompare
-        konsole
-        kscreen
-        ksshaskpass
-        ksystemlog
-        kvantum
-        kvantum-qt5
-        kwallet-pam
-        kwrited
-        linssid
-        lsb-release
-        man-db
-        man-pages
-        marker
-        mc
-        nano
-        ocean-sound-theme
-        okular
-        openssh 
-        oxygen
-        oxygen-sounds
-        packagekit-qt6
-        pacmanlogviewer              
-        papirus-icon-theme
-        partitionmanager
-        pavucontrol
-        plasma-browser-integration
-        plasma-desktop
-        plasma-disks
-        plasma-firewall
-        plasma-nm
-        plasma-pa
-        plasma-systemmonitor
-        plasma-thunderbolt
-        plasma-vault
-        plasma-wayland-protocols
-        plasma-welcome
-        plasma-workspace-wallpapers
-        powerdevil
-        print-manager
-        pulseaudio-equalizer-ladspa
-        sddm-kcm
-        seahorse
-        speedtest-cli         
-        terminus-font         
-        timeshift
-        tlp
-        unzip
-        virtualbox
-        vlc
-        wget
-        xdg-desktop-portal-kde
-        zram-generator                   
+# List of packages to install via pacman without choice
+ESSENTIAL_PKGS=(
+    alsa-utils
+    arandr
+    archlinux-contrib
+    ark
+    atuin
+    bat
+    bluedevil
+    breeze-grub
+    breeze-gtk
+    breeze-plymouth
+    chromium
+    discover
+    dolphin
+    dolphin-plugins
+    drkonqi
+    expac
+    eza
+    gnome-keyring                   
+    gparted
+    grub-customizer
+    gufw                  
+    gwenview
+    intel-ucode
+    kate
+    kde-gtk-config
+    kdeplasma-addons
+    kgamma
+    kinfocenter
+    konsole
+    kscreen
+    ksshaskpass
+    ksystemlog
+    kwallet-pam
+    kwrited
+    lsb-release
+    man-db
+    man-pages
+    nano
+    ocean-sound-theme
+    okular
+    openssh 
+    oxygen
+    oxygen-sounds
+    packagekit-qt6
+    pacmanlogviewer              
+    papirus-icon-theme
+    pavucontrol
+    plasma-browser-integration
+    plasma-desktop
+    plasma-disks
+    plasma-firewall
+    plasma-nm
+    plasma-pa
+    plasma-systemmonitor
+    plasma-thunderbolt
+    plasma-vault
+    plasma-welcome
+    plasma-workspace-wallpapers
+    powerdevil
+    print-manager
+    pulseaudio-equalizer-ladspa
+    sddm-kcm
+    seahorse
+    speedtest-cli         
+    terminus-font         
+    timeshift
+    tlp
+    unzip
+    vlc
+    wget
+    xdg-desktop-portal-kde
+    zram-generator 
+    zsh
+    zsh-completions
+    zsh-syntax-highlighting
+   
 )
 
-# List of packages to install via yay
-PKGS_YAY=(
-        brave-bin
-        caffeine-ng    
-        catppuccin-gtk-theme-mocha
-        catppuccin-konsole-theme-git
-        downgrade
-        klassy
-        konsave
-        pamac-aur
-        paru-bin
-        plasma6-applets-panel-colorizer
-        popcorntime-bin
-        sddm-theme-catppuccin
-        tlpui-git
-        update-grub
-        ventoy-bin
-        xcursor-arch-cursor-complete
+# List of packages to install via pacman with choice
+OPTIONAL_PKGS_PACMAN=(
+    linux-headers    
+    bleachbit
+    chezmoi
+    chromium              
+    code
+    deluge-gtk    
+    fastfetch
+    firefox             
+    gimp
+    inkscape    
+    kbackup
+    kcolorchooser
+    kompare
+    kvantum
+    kvantum-qt5
+    linssid    
+    marker
+    mc    
+    virtualbox
+                        
+)
+
+# List of packages to install via yay with choice
+OPTIONAL_PKGS_YAY=(
+    brave-bin
+    caffeine-ng    
+    catppuccin-gtk-theme-mocha
+    catppuccin-konsole-theme-git
+    downgrade
+    klassy
+    konsave
+    pamac-aur
+    paru-bin
+    plasma6-applets-panel-colorizer
+    popcorntime-bin
+    sddm-theme-catppuccin
+    tlpui-git
+    update-grub
+    ventoy-bin
+    xcursor-arch-cursor-complete
 )
 
 # List of services to enable if installed
@@ -146,12 +155,12 @@ generate_dialog_options() {
     echo "${options[@]}"
 }
 
-# Generate dialog options for pacman (default ON) and yay (default OFF) packages
-pacman_options=$(generate_dialog_options "on" "${PKGS_PACMAN[@]}")
-yay_options=$(generate_dialog_options "off" "${PKGS_YAY[@]}")
+# Generate dialog options for optional pacman (default ON) and yay (default OFF) packages
+optional_pacman_options=$(generate_dialog_options "on" "${OPTIONAL_PKGS_PACMAN[@]}")
+optional_yay_options=$(generate_dialog_options "off" "${OPTIONAL_PKGS_YAY[@]}")
 
 # Ask user which packages to install via pacman using dialog
-selected_pacman=$(dialog --separate-output --checklist "Select packages to install via pacman" 20 78 15 ${pacman_options} 3>&1 1>&2 2>&3)
+selected_optional_pacman=$(dialog --separate-output --checklist "Select optional packages to install via pacman" 20 78 15 ${optional_pacman_options} 3>&1 1>&2 2>&3)
 clear
 
 # Display a warning message about yay packages
@@ -159,16 +168,16 @@ dialog --msgbox "Warning: Installing packages from the AUR can take time to buil
 clear
 
 # Ask user which packages to install via yay using dialog
-selected_yay=$(dialog --separate-output --checklist "Select packages to install via yay" 20 78 15 ${yay_options} 3>&1 1>&2 2>&3)
+selected_optional_yay=$(dialog --separate-output --checklist "Select optional packages to install via yay" 20 78 15 ${optional_yay_options} 3>&1 1>&2 2>&3)
 clear
 
 # Convert selected packages from dialog output
-selected_pacman=($(echo $selected_pacman | sed 's/"//g'))
-selected_yay=($(echo $selected_yay | sed 's/"//g'))
+selected_optional_pacman=($(echo $selected_optional_pacman | sed 's/"//g'))
+selected_optional_yay=($(echo $selected_optional_yay | sed 's/"//g'))
 
 # Debug output to verify selections
-echo "Selected pacman packages: ${selected_pacman[@]}"
-echo "Selected yay packages: ${selected_yay[@]}"
+echo "Selected optional pacman packages: ${selected_optional_pacman[@]}"
+echo "Selected optional yay packages: ${selected_optional_yay[@]}"
 
 # Install yay if it is not already installed
 if ! command -v yay &> /dev/null; then
@@ -182,17 +191,20 @@ else
     echo "yay is already installed"
 fi
 
-# Install selected packages with pacman
-if [ ${#selected_pacman[@]} -ne 0 ]; then
-    echo "Installing selected packages with pacman..."
-    sudo pacman -S --noconfirm --needed "${selected_pacman[@]}"
-fi
-    sudo pacman -S --needed --noconfirm atuin bat zsh zsh-completions zsh-syntax-highlighting
+# Install essential packages with pacman
+echo "Installing essential packages with pacman..."
+sudo pacman -S --noconfirm --needed "${ESSENTIAL_PKGS[@]}"
 
-# Install selected packages with yay
-if [ ${#selected_yay[@]} -ne 0 ]; then
-    echo "Installing selected packages with yay..."
-    yay -S --noconfirm --needed "${selected_yay[@]}"
+# Install optional packages with pacman
+if [ ${#selected_optional_pacman[@]} -ne 0 ]; then
+    echo "Installing selected optional packages with pacman..."
+    sudo pacman -S --noconfirm --needed "${selected_optional_pacman[@]}"
+fi
+
+# Install selected optional packages with yay
+if [ ${#selected_optional_yay[@]} -ne 0 ]; then
+    echo "Installing selected optional packages with yay..."
+    yay -S --noconfirm --needed "${selected_optional_yay[@]}"
 fi
 
 # Enable selected services if they are installed
@@ -204,7 +216,7 @@ for service in "${SERVICES[@]}"; do
 done
 
 # Set Plasma session as default if selected
-if [[ " ${selected_pacman[@]} " =~ " plasma-meta " ]]; then
+if [[ " ${ESSENTIAL_PKGS[@]} ${selected_optional_pacman[@]} " =~ " plasma-meta " ]]; then
     echo "Setting Plasma session as default..."
     sudo tee /etc/sddm.conf > /dev/null <<EOT
 [Desktop]
@@ -220,7 +232,7 @@ FILES_TO_COPY=(
 )
 
 # Change default shell to zsh
-    chsh -s /usr/bin/zsh
+chsh -s /usr/bin/zsh
     
 # Copy files from the script directory to the home directory
 echo "Copying files from the script directory to the home directory..."
@@ -248,4 +260,3 @@ else
 fi
 zsh
 exit 0
-
