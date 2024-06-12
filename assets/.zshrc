@@ -16,6 +16,7 @@ export EDITOR='nano'
 
 source ~/.zsh-aliases
 source ~/.zsh-functions
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 eval "$(atuin init zsh)"
 #eval "$(atuin init zsh --disable-up-arrow)"
