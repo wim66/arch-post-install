@@ -316,7 +316,7 @@ echo "Installing oh-my-zsh..."
 
 echo
 sleep 3
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && exit
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
 # List of files to copy to the home directory
 FILES_TO_COPY=(
@@ -341,18 +341,9 @@ for FILE in "${FILES_TO_COPY[@]}"; do
         cp "$SCRIPT_DIR/assets/$FILE" ~/
         # Set the proper permissions
         chmod 644 ~/"$FILE"
-        echo
-
         echo "Copied and set permissions for $FILE"
-
-        echo
-        sleep 3
     else
-        echo
-
         echo "File $SCRIPT_DIR/assets/$FILE does not exist"
-
-        echo
         sleep 3
     fi
 done
