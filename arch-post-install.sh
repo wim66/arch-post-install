@@ -372,5 +372,5 @@ else
     echo
     sleep 3
 fi
-zsh
+
 exit 0
