@@ -355,6 +355,7 @@ cp $SCRIPT_DIR/assets/mytheme.omp.json ~/.config/oh-my-posh
 mkdir -p ~/.local/share/fonts
 cp $SCRIPT_DIR/assets/OperatorMonoNerdFont_Medium.otf ~/.local/share/fonts
 cp $SCRIPT_DIR/assets/konsolerc ~/.config
+cp $SCRIPT_DIR/assets/'Catppuccin Mocha.profile' ~/.local/share/konsole/
 
 # Reboot prompt
 read -p "Installation complete. Do you want to reboot now? (y/n): " REBOOT
