@@ -356,6 +356,13 @@ cp $SCRIPT_DIR/assets/OperatorMonoNerdFont_Medium.otf ~/.local/share/fonts
 mkdir -p ~/.local/share/konsole
 cp $SCRIPT_DIR/assets/konsolerc ~/.config
 cp $SCRIPT_DIR/assets/'Catppuccin Mocha.profile' ~/.local/share/konsole
+echo
+
+echo "Instaling catppuccin theme, follow install.sh and create Catppuccin Mocha Blue to set theme ..."
+
+echo
+git clone --depth=1 https://github.com/catppuccin/kde catppuccin-kde && cd catppuccin-kde
+./install.sh
 
 # Reboot prompt
 read -p "Installation complete. Do you want to reboot now? (y/n): " REBOOT
