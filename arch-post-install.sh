@@ -312,11 +312,14 @@ fi
 
 echo
 
-echo "Installing oh-my-zsh..."
+echo "Installing oh-my-zsh & oh-my-posh..."
 
 echo
 sleep 3
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+mkdir -p ~/.local/bin
+mkdir -p ~/.config/oh-my-posh
+curl -s https://ohmyposh.dev/install.sh | bash -s -- -d ~/.local/bin
 
 # List of files to copy to the home directory
 FILES_TO_COPY=(
@@ -347,7 +350,7 @@ for FILE in "${FILES_TO_COPY[@]}"; do
         sleep 3
     fi
 done
-
+cp $SCRIPT_DIR/assets/mytheme.omp.json ~/.config/oh-my-posh
 # Reboot prompt
 read -p "Installation complete. Do you want to reboot now? (y/n): " REBOOT
 if [[ "$REBOOT" =~ ^[Yy]$ ]]; then
