@@ -353,9 +353,7 @@ done
 cp $SCRIPT_DIR/assets/mytheme.omp.json ~/.config/oh-my-posh
 mkdir -p ~/.local/share/fonts
 cp $SCRIPT_DIR/assets/OperatorMonoNerdFont_Medium.otf ~/.local/share/fonts
-mkdir -p ~/.local/share/konsole
 cp $SCRIPT_DIR/assets/konsolerc ~/.config
-cp $SCRIPT_DIR/assets/'Catppuccin Mocha.profile' ~/.local/share/konsole
 echo
 
 echo "Instaling catppuccin theme, follow install.sh and create Catppuccin Mocha Blue to set theme ..."
