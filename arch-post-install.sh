@@ -2,7 +2,12 @@
 
 # Check if the script is run as root
 if [ "$(id -u)" -eq 0 ]; then
+    echo
+
     echo "This script should not be run as root. Run it as a regular user."
+
+    echo
+    sleep 3
     exit 1
 fi
 
@@ -10,7 +15,12 @@ fi
 sudo sed -i 's/COMPRESSZST=(zstd -c -T0 --ultra -20 -)/# COMPRESSZST=(zstd -c -T0 --ultra -20 -)/g' /etc/makepkg.conf
 
 # Update the system and install required packages with sudo
+echo
+
 echo "Updating the system and installing required packages..."
+
+echo
+sleep 3
 sudo pacman -Syu --noconfirm --needed base-devel git dialog
 
 # List of packages to install via pacman without choice
@@ -177,49 +187,121 @@ clear
 selected_optional_pacman=($(echo $selected_optional_pacman | sed 's/"//g'))
 selected_optional_yay=($(echo $selected_optional_yay | sed 's/"//g'))
 
+# Confirm selections with the user
+while true; do
+    echo
+
+    echo "You've selected these packages to install via pacman: ${selected_optional_pacman[@]}"
+    echo "You've selected these packages to install via yay: ${selected_optional_yay[@]}"
+    echo
+    read -p "Do you want to continue? (y/n): " CONFIRM
+    echo
+
+    if [[ "$CONFIRM" =~ ^[Yy]$ ]]; then
+        break
+    elif [[ "$CONFIRM" =~ ^[Nn]$ ]]; then
+        selected_optional_pacman=$(dialog --separate-output --checklist "Select optional packages to install via pacman" 20 78 15 ${optional_pacman_options} 3>&1 1>&2 2>&3)
+        clear
+        dialog --msgbox "Warning: Installing packages from the AUR can take time to build. Please choose carefully which packages to install." 10 60
+        clear
+        selected_optional_yay=$(dialog --separate-output --checklist "Select optional packages to install via yay" 20 78 15 ${optional_yay_options} 3>&1 1>&2 2>&3)
+        clear
+        selected_optional_pacman=($(echo $selected_optional_pacman | sed 's/"//g'))
+        selected_optional_yay=($(echo $selected_optional_yay | sed 's/"//g'))
+    else
+        echo "Please answer y or n."
+    fi
+done
+
 # Debug output to verify selections
+echo
+
 echo "Selected optional pacman packages: ${selected_optional_pacman[@]}"
+
+echo
+sleep 3
+
+echo
+
 echo "Selected optional yay packages: ${selected_optional_yay[@]}"
+
+echo
+sleep 3
 
 # Install yay if it is not already installed
 if ! command -v yay &> /dev/null; then
+    echo
+
     echo "yay not found, installing yay..."
+
+    echo
+    sleep 3
     git clone https://aur.archlinux.org/yay.git
     cd yay
     makepkg -si --noconfirm
     cd ..
     rm -rf yay
 else
+    echo
+
     echo "yay is already installed"
+
+    echo
+    sleep 3
 fi
 
 # Install essential packages with pacman
+echo
+
 echo "Installing essential packages with pacman..."
+
+echo
+sleep 3
 sudo pacman -S --noconfirm --needed "${ESSENTIAL_PKGS[@]}"
 
 # Install optional packages with pacman
 if [ ${#selected_optional_pacman[@]} -ne 0 ]; then
+    echo
+
     echo "Installing selected optional packages with pacman..."
+
+    echo
+    sleep 3
     sudo pacman -S --noconfirm --needed "${selected_optional_pacman[@]}"
 fi
 
 # Install selected optional packages with yay
 if [ ${#selected_optional_yay[@]} -ne 0 ]; then
+    echo
+
     echo "Installing selected optional packages with yay..."
+
+    echo
+    sleep 3
     yay -S --noconfirm --needed "${selected_optional_yay[@]}"
 fi
 
 # Enable selected services if they are installed
 for service in "${SERVICES[@]}"; do
     if systemctl list-unit-files | grep -q "^${service}.service"; then
+        echo
+
         echo "Enabling service: ${service}"
+
+        echo
+        sleep 3
         sudo systemctl enable "${service}.service"
     fi
 done
 
 # Set Plasma session as default if selected
 if [[ " ${ESSENTIAL_PKGS[@]} ${selected_optional_pacman[@]} " =~ " plasma-meta " ]]; then
+    echo
+
     echo "Setting Plasma session as default..."
+
+    echo
+    sleep 3
     sudo tee /etc/sddm.conf > /dev/null <<EOT
 [Desktop]
 Session=plasma.desktop
@@ -235,18 +317,33 @@ FILES_TO_COPY=(
 
 # Change default shell to zsh
 chsh -s /usr/bin/zsh
-    
+
 # Copy files from the script directory to the home directory
+echo
+
 echo "Copying files from the script directory to the home directory..."
+
+echo
+sleep 3
 SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
 for FILE in "${FILES_TO_COPY[@]}"; do
     if [ -f "$SCRIPT_DIR/assets/$FILE" ]; then
         cp "$SCRIPT_DIR/assets/$FILE" ~/
         # Set the proper permissions
         chmod 644 ~/"$FILE"
+        echo
+
         echo "Copied and set permissions for $FILE"
+
+        echo
+        sleep 3
     else
+        echo
+
         echo "File $SCRIPT_DIR/assets/$FILE does not exist"
+
+        echo
+        sleep 3
     fi
 done
 
@@ -257,8 +354,13 @@ if [[ "$REBOOT" =~ ^[Yy]$ ]]; then
 else
     clear
     echo
+
     echo
+
     echo "Installation complete. Don't forget to reboot your system!"
+
+    echo
+    sleep 3
 fi
 zsh
 exit 0
