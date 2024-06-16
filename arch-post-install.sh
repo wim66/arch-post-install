@@ -316,7 +316,7 @@ echo "Installing oh-my-zsh..."
 
 echo
 sleep 3
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && exit
 
 # List of files to copy to the home directory
 FILES_TO_COPY=(
