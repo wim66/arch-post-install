@@ -101,6 +101,8 @@ ESSENTIAL_PKGS=(
     zsh
     zsh-completions
     zsh-syntax-highlighting
+    zoxide
+    fzf
    
 )
 
@@ -307,6 +309,14 @@ if [[ " ${ESSENTIAL_PKGS[@]} ${selected_optional_pacman[@]} " =~ " plasma-meta "
 Session=plasma.desktop
 EOT
 fi
+
+echo
+
+echo "Installing oh-my-zsh..."
+
+echo
+sleep 3
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 # List of files to copy to the home directory
 FILES_TO_COPY=(
