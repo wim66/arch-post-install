@@ -55,7 +55,8 @@ ESSENTIAL_PKGS=(
     nano
     ocean-sound-theme
     okular
-    openssh 
+    openssh
+    os-prober 
     oxygen
     oxygen-sounds
     packagekit-qt6
@@ -124,6 +125,7 @@ OPTIONAL_PKGS_YAY=(
     catppuccin-gtk-theme-mocha
     catppuccin-konsole-theme-git
     downgrade
+    dropbox
     klassy
     konsave
     pamac-aur
