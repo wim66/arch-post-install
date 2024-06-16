@@ -95,7 +95,7 @@ eval "$(atuin init zsh)"
 
         # ----- To edit a theme; oh-my-posh config export --output ~/.mytheme.omp.json -----
 
-        eval "$(oh-my-posh init zsh --config OH_MY_POSH/mytheme.omp.json)"
+        eval "$(oh-my-posh init zsh --config ~/.config/oh-my-posh/mytheme.omp.json)"
         ###############################################################################################
 
 
