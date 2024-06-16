@@ -135,7 +135,6 @@ OPTIONAL_PKGS_YAY=(
     brave-bin
     caffeine-ng    
     catppuccin-gtk-theme-mocha
-    catppuccin-konsole-theme-git
     downgrade
     dropbox
     klassy
@@ -283,6 +282,8 @@ if [ ${#selected_optional_yay[@]} -ne 0 ]; then
     yay -S --noconfirm --needed "${selected_optional_yay[@]}"
 fi
 
+yay -S --noconfirm --needed catppuccin-konsole-theme-git
+
 # Enable selected services if they are installed
 for service in "${SERVICES[@]}"; do
     if systemctl list-unit-files | grep -q "^${service}.service"; then
@@ -351,6 +352,10 @@ for FILE in "${FILES_TO_COPY[@]}"; do
     fi
 done
 cp $SCRIPT_DIR/assets/mytheme.omp.json ~/.config/oh-my-posh
+mkdir -p ~/.local/share/fonts
+cp $SCRIPT_DIR/assets/OperatorMonoNerdFont_Medium.otf ~/.local/share/fonts
+cp $SCRIPT_DIR/assets/konsolerc ~/.config
+
 # Reboot prompt
 read -p "Installation complete. Do you want to reboot now? (y/n): " REBOOT
 if [[ "$REBOOT" =~ ^[Yy]$ ]]; then

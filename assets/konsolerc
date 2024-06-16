@@ -1,0 +1,18 @@
+MenuBar=Disabled
+StatusBar=Disabled
+
+[Desktop Entry]
+DefaultProfile=Catppuccin Mocha.profile
+
+[General]
+ConfigVersion=1
+
+[KonsoleWindow]
+ShowWindowTitleOnTitleBar=true
+
+[MainWindow]
+MenuBar=Enabled
+ToolBarsMovable=Disabled
+
+[UiSettings]
+ColorScheme=
