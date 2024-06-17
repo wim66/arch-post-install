@@ -358,7 +358,7 @@ cp $SCRIPT_DIR/assets/konsolerc ~/.config
 cp $SCRIPT_DIR/assets/'Catppuccin Mocha.profile' ~/.local/share/konsole
 echo
 
-echo "Instaling catppuccin theme, follow install.sh and create Catppuccin Mocha Blue to set theme ..."
+echo "Instaling catppuccin theme, follow install.sh..."
 
 echo
 git clone --depth=1 https://github.com/catppuccin/kde catppuccin-kde && cd catppuccin-kde
