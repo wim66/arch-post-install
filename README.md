@@ -15,7 +15,7 @@ cd arch-post-install
 
 sh arch-post-install.sh (no sudo!)
 
-What the Script Does
+### What the script does
 
 The system will be updated first
 
@@ -25,7 +25,7 @@ In the dialog boxes for pacman and yay you can pick additional software you woul
 
 AUR packages installed with yay can take time to build
 
-<ins>Zsh will be the default shell with a pre-configured setup</ins>
+<ins>Zsh will be the default shell with a pre-configured setup with oh-my-zsh and oh-my-posh prompt</ins>
 
 Notes
 
