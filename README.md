@@ -21,9 +21,7 @@ The system will be updated first
 
 Most packages will be installed by default (check the script and remove what you don't want)
 
-In the dialog box for pacman, you can switch off additional software you don't want
-
-In the dialog box for yay, you can switch AUR packages on if you want
+In the dialog boxes for pacman and yay you can pick additional software you would like to install
 
 AUR packages installed with yay can take time to build
 

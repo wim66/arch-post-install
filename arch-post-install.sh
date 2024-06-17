@@ -30,12 +30,13 @@ ESSENTIAL_PKGS=(
     plasma-nm plasma-pa plasma-systemmonitor plasma-thunderbolt plasma-vault plasma-welcome
     plasma-workspace-wallpapers powerdevil print-manager pulseaudio-equalizer-ladspa
     sddm-kcm seahorse speedtest-cli terminus-font timeshift tlp unzip vlc wget
-    xdg-desktop-portal-kde zram-generator zsh zsh-completions zsh-syntax-highlighting zoxide fzf
+    wl-clipboard xdg-desktop-portal-kde zram-generator zsh zsh-completions zsh-syntax-highlighting
+    zoxide fzf
 )
 
 # List of packages to install via pacman with choice
 OPTIONAL_PKGS_PACMAN=(
-    linux-headers bleachbit chezmoi code deluge-gtk fastfetch firefox gimp inkscape
+    linux-headers linux-lts linux-lts-headers linux-zen linux-zen-headers bleachbit chezmoi code deluge-gtk fastfetch firefox gimp inkscape
     kbackup kcolorchooser kompare kvantum kvantum-qt5 linssid marker mc virtualbox
 )
 
@@ -63,7 +64,7 @@ generate_dialog_options() {
 }
 
 # Generate dialog options for optional pacman (default ON) and yay (default OFF) packages
-optional_pacman_options=$(generate_dialog_options "on" "${OPTIONAL_PKGS_PACMAN[@]}")
+optional_pacman_options=$(generate_dialog_options "off" "${OPTIONAL_PKGS_PACMAN[@]}")
 optional_yay_options=$(generate_dialog_options "off" "${OPTIONAL_PKGS_YAY[@]}")
 
 # Ask user which packages to install via pacman using dialog
