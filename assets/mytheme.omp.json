@@ -144,6 +144,6 @@
   "transient_prompt": {
               "background": "transparent",
               "foreground": "#A6E3A1",
-              "template": "   \uF00C  "
+              "template": "   \uF103  "
           }
 }

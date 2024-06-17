@@ -1,39 +1,47 @@
 <p align="center"> <img src="https://github.com/wim66/arch-post-install/blob/main/assets/logo.png" alt="image"></p>
 
 # arch-post-install
- 
-### Arch post minimal install script (WIP)
 
- Installs Plasma/KDE desktop and additional software
+### Arch Post Minimal Install Script (WIP)
 
- ### Usage
- after minimal install, reboot and login to your account
+Installs Plasma/KDE desktop and additional software.
 
- git clone https://github.com/wim66/arch-post-install
+### Usage
+After minimal install, reboot and log in to your account:
 
- `cd arch-post install`
- 
- `sh arch-post-install.sh` (no sudo!)
+git clone https://github.com/wim66/arch-post-install
 
- System wil be updated first
+cd arch-post-install
 
- Most packages will be installed by default (check script remove what you don't want)
+sh arch-post-install.sh (no sudo!)
 
- In the dialog box for pacman you can switch off additional software you don't want
+What the Script Does
 
- In the dialog box for yay you can switch AUR packages on if you want
+The system will be updated first
 
- AUR packages installed with yay can take time to build
+Most packages will be installed by default (check the script and remove what you don't want)
 
- <ins>Zsh wil be the default shell with pre-configured config</ins>
+In the dialog box for pacman, you can switch off additional software you don't want
 
- You can edit the script to change it to the way you want it
+In the dialog box for yay, you can switch AUR packages on if you want
 
- <p align="center"> <img src="https://github.com/wim66/arch-post-install/blob/main/assets/preview1.png" alt="image"></p>
+AUR packages installed with yay can take time to build
 
- <p align="center"> <img src="https://github.com/wim66/arch-post-install/blob/main/assets/preview2.png" alt="image"></p>
+<ins>Zsh will be the default shell with a pre-configured setup</ins>
 
- <p align="center"> <img src="https://github.com/wim66/arch-post-install/blob/main/assets/Signature.png" alt="image"></p>
+Notes
 
+This script is based on my personal preferences
 
- 
+Pulseaudio was chosen for the minimal Arch install
+
+Customization
+
+You can edit the script to change it to the way you want it.
+
+<p align="center"> <img src="https://github.com/wim66/arch-post-install/blob/main/assets/preview1.png" alt="image"></p>
+
+<p align="center"> <img src="https://github.com/wim66/arch-post-install/blob/main/assets/preview2.png" alt="image"></p>
+
+<p align="center"> <img src="https://github.com/wim66/arch-post-install/blob/main/assets/Signature.png" alt="image"></p>
+
