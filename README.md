@@ -27,6 +27,8 @@ AUR packages installed with yay can take time to build
 
 <ins>Zsh will be the default shell with a pre-configured setup with oh-my-zsh and oh-my-posh prompt</ins>
 
+<p align="center"> <img src="https://github.com/wim66/arch-post-install/blob/main/assets/preview3.png" alt="image" width="200"></p>
+
 Notes
 
 This script is based on my personal preferences
