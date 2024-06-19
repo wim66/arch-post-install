@@ -78,6 +78,7 @@ source $ZSH/oh-my-zsh.sh
 source ~/.zsh-aliases
 source ~/.zsh-functions
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 export HISTSIZE=10000000
 export SAVEHIST=$HISTSIZE
@@ -87,8 +88,7 @@ export HIST_FIND_NO_DUPS
 export EDITOR='nano'
 export PATH=$PATH:$HOME/.local/bin
 
-eval "$(zoxide init zsh)"
-eval "$(atuin init zsh)"
+
 #eval "$(atuin init zsh --disable-up-arrow)"
 
         export OH_MY_POSH="~/.config/oh-my-posh"
@@ -97,6 +97,9 @@ eval "$(atuin init zsh)"
 
         eval "$(oh-my-posh init zsh --config ~/.config/oh-my-posh/mytheme.omp.json)"
         ###############################################################################################
+
+eval "$(zoxide init zsh)"
+eval "$(atuin init zsh)" # keep at the bottom!
 
 
 # export MANPATH="/usr/local/man:$MANPATH"
