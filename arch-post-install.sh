@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Define the logfile
-LOGFILE=~/arch-post-install.log
-exec > >(tee -a "$LOGFILE") 2>&1
-
 # Check if the script is run as root
 if [ "$(id -u)" -eq 0 ]; then
     echo
@@ -202,68 +198,152 @@ while true; do
     if [[ "$CONFIRM" =~ ^[Yy]$ ]]; then
         break
     elif [[ "$CONFIRM" =~ ^[Nn]$ ]]; then
-        echo "Installation cancelled by user."
-        exit 1
+        selected_optional_pacman=$(dialog --separate-output --checklist "Select optional packages to install via pacman" 20 78 15 ${optional_pacman_options} 3>&1 1>&2 2>&3)
+        clear
+        dialog --msgbox "Warning: Installing packages from the AUR can take time to build. Please choose carefully which packages to install." 10 60
+        clear
+        selected_optional_yay=$(dialog --separate-output --checklist "Select optional packages to install via yay" 20 78 15 ${optional_yay_options} 3>&1 1>&2 2>&3)
+        clear
+        selected_optional_pacman=($(echo $selected_optional_pacman | sed 's/"//g'))
+        selected_optional_yay=($(echo $selected_optional_yay | sed 's/"//g'))
     else
-        echo "Invalid input. Please enter y (yes) or n (no)."
+        echo "Please answer y or n."
     fi
 done
 
-# Combine default and selected optional packages
-all_pacman_pkgs=("${DEFAULT_PKGS[@]}" "${selected_optional_pacman[@]}")
-all_yay_pkgs=("${selected_optional_yay[@]}")
-
-# Install selected packages via pacman
+# Debug output to verify selections
 echo
-echo "Installing selected packages via pacman..."
+echo "Selected optional pacman packages: ${selected_optional_pacman[@]}"
 echo
-sleep 2
-for pkg in "${all_pacman_pkgs[@]}"; do
-    sudo pacman -S --noconfirm --needed "$pkg"
-done
+echo "Selected optional yay packages: ${selected_optional_yay[@]}"
+echo
 
-# Install yay if not already installed
+# Install yay if it is not already installed
 if ! command -v yay &> /dev/null; then
     echo
-    echo "Installing yay..."
+    echo "yay not found, installing yay..."
     echo
-    sleep 2
     git clone https://aur.archlinux.org/yay.git
     cd yay
     makepkg -si --noconfirm
     cd ..
     rm -rf yay
+else
+    echo
+    echo "yay is already installed"
+    echo
 fi
 
-# Install selected packages via yay
+# Install essential packages with pacman
 echo
-echo "Installing selected packages via yay..."
+echo "Installing essential packages with pacman..."
 echo
-sleep 2
-for pkg in "${all_yay_pkgs[@]}"; do
-    yay -S --noconfirm "$pkg"
-done
+sudo pacman -S --noconfirm --needed "${DEFAULT_PKGS[@]}"
 
-# Enable selected services
-echo
-echo "Enabling selected services..."
-echo
-sleep 2
+# Install optional packages with pacman
+if [ ${#selected_optional_pacman[@]} -ne 0 ]; then
+    echo
+    echo "Installing selected optional packages with pacman..."
+    echo
+    sudo pacman -S --noconfirm --needed "${selected_optional_pacman[@]}"
+fi
+
+# Install selected optional packages with yay
+if [ ${#selected_optional_yay[@]} -ne 0 ]; then
+    echo
+    echo "Installing selected optional packages with yay..."
+    echo
+    yay -S --noconfirm --needed "${selected_optional_yay[@]}"
+fi
+
+yay -S --noconfirm --needed catppuccin-konsole-theme-git
+
+# Enable selected services if they are installed
 for service in "${SERVICES[@]}"; do
     if systemctl list-unit-files | grep -q "^${service}.service"; then
-        sudo systemctl enable "$service"
+        echo
+        echo "Enabling service: ${service}"
+        echo
+        sudo systemctl enable "${service}.service"
     fi
 done
 
-# Clean up system
-echo
-echo "Cleaning up the system..."
-echo
-sleep 2
-sudo pacman -Rns $(pacman -Qdtq) --noconfirm
-sudo pacman -Scc --noconfirm
+# Set Plasma session as default if selected
+if [[ " ${DEFAULT_PKGS[@]} ${selected_optional_pacman[@]} " =~ " plasma-meta " ]]; then
+    echo
+    echo "Setting Plasma session as default..."
+    echo
+    sudo tee /etc/sddm.conf > /dev/null <<EOT
+[Desktop]
+Session=plasma.desktop
+EOT
+fi
 
 echo
-echo "Post-installation script completed."
-echo "You may need to reboot your system for all changes to take effect."
+echo "Installing oh-my-zsh & oh-my-posh..."
 echo
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+mkdir -p ~/.local/bin
+mkdir -p ~/.config/oh-my-posh
+curl -s https://ohmyposh.dev/install.sh | bash -s -- -d ~/.local/bin
+
+# List of files to copy to the home directory
+FILES_TO_COPY=(
+    ".zshrc" ".zsh-aliases" ".zsh-functions"
+)
+
+# Change default shell to zsh
+chsh -s /usr/bin/zsh
+
+# Copy files from the script directory to the home directory
+echo
+echo "Copying files from the script directory to the home directory..."
+echo
+SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
+for FILE in "${FILES_TO_COPY[@]}"; do
+    if [ -f "$SCRIPT_DIR/assets/$FILE" ]; then
+        cp "$SCRIPT_DIR/assets/$FILE" ~/
+        chmod 644 ~/"$FILE"
+        echo "Copied and set permissions for $FILE"
+    else
+        echo "File $SCRIPT_DIR/assets/$FILE does not exist"
+    fi
+done
+
+# Copy additional files with the appropriate permissions
+echo "Copying mytheme.omp.json to ~/.config/oh-my-posh"
+cp "$SCRIPT_DIR/assets/mytheme.omp.json" ~/.config/oh-my-posh && chmod 644 ~/.config/oh-my-posh/mytheme.omp.json && echo "Copied and set permissions for mytheme.omp.json"
+
+echo "Creating directory ~/.local/share/fonts"
+mkdir -p ~/.local/share/fonts && echo "Directory ~/.local/share/fonts created"
+
+echo "Copying OperatorMonoNerdFont_Medium.otf to ~/.local/share/fonts"
+cp "$SCRIPT_DIR/assets/OperatorMonoNerdFont_Medium.otf" ~/.local/share/fonts && chmod 644 ~/.local/share/fonts/OperatorMonoNerdFont_Medium.otf && echo "Copied and set permissions for OperatorMonoNerdFont_Medium.otf"
+
+echo "Creating directory ~/.local/share/konsole"
+mkdir -p ~/.local/share/konsole && echo "Directory ~/.local/share/konsole created"
+
+echo "Copying konsolerc to ~/.config"
+cp "$SCRIPT_DIR/assets/konsolerc" ~/.config && chmod 644 ~/.config/konsolerc && echo "Copied and set permissions for konsolerc"
+
+echo "Copying 'Catppuccin Mocha.profile' to ~/.local/share/konsole"
+cp "$SCRIPT_DIR/assets/'Catppuccin Mocha.profile'" ~/.local/share/konsole && chmod 644 ~/.local/share/konsole/'Catppuccin Mocha.profile' && echo "Copied and set permissions for 'Catppuccin Mocha.profile'"
+
+echo
+echo "Installing catppuccin theme, follow install.sh..."
+echo
+git clone --depth=1 https://github.com/catppuccin/kde catppuccin-kde && cd catppuccin-kde
+./install.sh
+
+# Reboot prompt
+read -p "Installation complete. Do you want to reboot now? (y/n): " REBOOT
+if [[ "$REBOOT" =~ ^[Yy]$ ]]; then
+    sudo reboot
+else
+    clear
+    echo
+    echo "Installation complete. Don't forget to reboot your system!"
+    echo
+fi
+
+exit 0
