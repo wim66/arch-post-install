@@ -2,7 +2,7 @@ MenuBar=Disabled
 StatusBar=Disabled
 
 [Desktop Entry]
-DefaultProfile=Catppuccin Mocha.profile
+DefaultProfile=Catppuccin-Mocha.profile
 
 [General]
 ConfigVersion=1
