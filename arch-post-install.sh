@@ -48,6 +48,7 @@ DEFAULT_PKGS=(
     kdeplasma-addons "Addons for KDE Plasma"
     kgamma "Adjust display gamma settings"
     kinfocenter "System information viewer"
+    kio-admin "Manage files as administrator"
     konsole "Terminal emulator for KDE"
     kscreen "Screen management software"
     ksshaskpass "SSH password dialog for KDE"
