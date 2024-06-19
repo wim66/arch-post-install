@@ -2,8 +2,6 @@
 
 LOGFILE="arch-post-install.log"
 exec 3>&1 1>"$LOGFILE" 2>&1
-trap "echo 'ERROR: An error occurred during execution, check log $LOGFILE for details.' >&3" ERR
-trap '{ set +x; } 2>/dev/null; echo -n "[$(date -Is)]  "; set -x' DEBUG
 
 # Check if the script is run as root
 if [ "$(id -u)" -eq 0 ]; then
