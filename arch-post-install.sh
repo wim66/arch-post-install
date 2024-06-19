@@ -1,7 +1,7 @@
 #!/bin/bash
 
-LOGFILE="arch-post-install.log"
-exec 3>&1 1>"$LOGFILE" 2>&1
+LOG_FILE=~/arch-post-install.log
+exec > >(tee ${LOG_FILE}) 2>&1
 
 # Check if the script is run as root
 if [ "$(id -u)" -eq 0 ]; then
@@ -335,8 +335,10 @@ cp "$SCRIPT_DIR/assets/'Catppuccin Mocha.profile'" ~/.local/share/konsole && chm
 echo
 echo "Installing catppuccin theme, follow install.sh..."
 echo
-git clone --depth=1 https://github.com/catppuccin/kde catppuccin-kde && cd catppuccin-kde
-./install.sh
+git clone --depth=1 https://github.com/catppuccin/kde ~/catppuccin-kde
+echo
+echo run install.sh in catppuccin-kde to create theme
+echo
 
 # Reboot prompt
 read -p "Installation complete. Do you want to reboot now? (y/n): " REBOOT
