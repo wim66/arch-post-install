@@ -327,7 +327,7 @@ echo "Copying konsolerc to ~/.config"
 cp "$SCRIPT_DIR/assets/konsolerc" ~/.config && chmod 644 ~/.config/konsolerc && echo "Copied and set permissions for konsolerc"
 
 echo "Copying 'Catppuccin Mocha.profile' to ~/.local/share/konsole"
-cp "$SCRIPT_DIR/assets/Catppuccin\ Mocha.profile" ~/.local/share/konsole && chmod 644 ~/.local/share/konsole/'Catppuccin Mocha.profile' && echo "Copied and set permissions for 'Catppuccin Mocha.profile'"
+cp "$SCRIPT_DIR/assets/Catppuccin-Mocha.profile" ~/.local/share/konsole && chmod 644 ~/.local/share/konsole/'Catppuccin Mocha.profile' && echo "Copied and set permissions for 'Catppuccin Mocha.profile'"
 
 echo
 echo "Installing catppuccin theme, follow install.sh..."
