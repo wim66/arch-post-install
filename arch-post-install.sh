@@ -48,7 +48,6 @@ DEFAULT_PKGS=(
     kdeplasma-addons "Addons for KDE Plasma"
     kgamma "Adjust display gamma settings"
     kinfocenter "System information viewer"
-    kio-admin "Manage files as administrator"
     konsole "Terminal emulator for KDE"
     kscreen "Screen management software"
     ksshaskpass "SSH password dialog for KDE"
@@ -170,7 +169,7 @@ generate_dialog_options() {
 }
 
 # Generate dialog options for optional pacman (default ON) and yay (default OFF) packages
-optional_pacman_options=$(generate_dialog_options "off" "${OPTIONAL_PKGS_PACMAN[@]}")
+optional_pacman_options=$(generate_dialog_options "on" "${OPTIONAL_PKGS_PACMAN[@]}")
 optional_yay_options=$(generate_dialog_options "off" "${OPTIONAL_PKGS_YAY[@]}")
 
 # Ask user which packages to install via pacman using dialog
@@ -195,7 +194,7 @@ while true; do
     echo "You've selected these packages to install via pacman: ${selected_optional_pacman[@]}"
     echo "You've selected these packages to install via yay: ${selected_optional_yay[@]}"
     echo
-    read -p "Do you want to continue? (y/n): " CONFIRM
+    read -p "Do you want to proceed with these selections? (y/n): " CONFIRM
     if [[ "$CONFIRM" =~ ^[Yy]$ ]]; then
         break
     elif [[ "$CONFIRM" =~ ^[Nn]$ ]]; then
