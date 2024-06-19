@@ -1,8 +1,5 @@
 #!/bin/bash
 
-LOG_FILE=~/arch-post-install.log
-exec > >(tee ${LOG_FILE}) 2>&1
-
 # Check if the script is run as root
 if [ "$(id -u)" -eq 0 ]; then
     echo
