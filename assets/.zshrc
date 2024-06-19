@@ -80,6 +80,7 @@ source ~/.zsh-functions
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
+export HISTFILE=$HOME/.zsh_history
 export HISTSIZE=10000000
 export SAVEHIST=$HISTSIZE
 setopt EXTENDED_HISTORY
