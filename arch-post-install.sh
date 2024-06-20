@@ -98,7 +98,6 @@ DEFAULT_PKGS=(
     vlc # Multimedia player
     wget # Network downloader
     wl-clipboard # Command-line copy/paste utilities for Wayland
-    wl-color-picker
     xdg-desktop-portal-kde # XDG desktop portal backend for KDE
     zram-generator # Systemd unit generator for zram swap
     zsh # Z shell
@@ -263,7 +262,7 @@ if [ ${#selected_optional_yay[@]} -ne 0 ]; then
     yay -S --noconfirm --needed "${selected_optional_yay[@]}"
 fi
 
-yay -S --noconfirm --needed catppuccin-konsole-theme-git
+yay -S --noconfirm --needed catppuccin-konsole-theme-git wl-color-picker
 
 # Enable selected services if they are installed
 for service in "${SERVICES[@]}"; do
