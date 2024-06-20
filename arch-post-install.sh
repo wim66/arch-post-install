@@ -103,7 +103,7 @@ DEFAULT_PKGS=(
     zsh # Z shell
     zsh-completions # Additional completions for Zsh
     zsh-syntax-highlighting # Syntax highlighting for Zsh
-    zsh-auto-suggestions 
+    zsh-autosuggestions 
     zoxide # A smarter cd command for your terminal
     fzf # Command-line fuzzy finder
 )
