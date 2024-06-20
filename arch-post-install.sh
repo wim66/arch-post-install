@@ -46,10 +46,14 @@ DEFAULT_PKGS=(
     kate # Advanced text editor for KDE
     kde-gtk-config # KDE configuration module for GTK
     kdeplasma-addons # Addons for KDE Plasma
+    kfind
     kgamma # Adjust display gamma settings
     kinfocenter # System information viewer
     kio-admin # Manage files as administrator
+    kio-extras
     konsole # Terminal emulator for KDE
+    krdp
+    krfb
     kscreen # Screen management software
     ksshaskpass # SSH password dialog for KDE
     ksystemlog # System log viewer for KDE
@@ -85,6 +89,7 @@ DEFAULT_PKGS=(
     pulseaudio-equalizer-ladspa # PulseAudio equalizer module
     sddm-kcm # SDDM configuration module for KDE
     seahorse # GNOME application for managing encryption keys
+    spectacle
     speedtest-cli # Command line interface for speedtest.net
     terminus-font # Monospace font for the console
     timeshift # System restore tool
@@ -93,6 +98,7 @@ DEFAULT_PKGS=(
     vlc # Multimedia player
     wget # Network downloader
     wl-clipboard # Command-line copy/paste utilities for Wayland
+    wl-color-picker
     xdg-desktop-portal-kde # XDG desktop portal backend for KDE
     zram-generator # Systemd unit generator for zram swap
     zsh # Z shell
